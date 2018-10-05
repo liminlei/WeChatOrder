@@ -1,26 +1,21 @@
-package com.imooc.sell.dataobject;
+package com.imooc.sell.dto;
 
+import com.imooc.sell.dataobject.OrderDetail;
 import com.imooc.sell.enums.OrderStatusEnums;
 import com.imooc.sell.enums.PayStatusEnums;
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 订单主表
+ * 方便在各层间传输的对象，如果controller需要订单中包含详情，那么在OrderMaster中加字段不方便，因为与数据库对应的。
  */
-@Entity
 @Data
-@DynamicUpdate
-public class OrderMaster {
-
+public class OrderDTO {
     //订单id
-    @Id
     private String orderId;
 
     //买家名字
@@ -39,10 +34,10 @@ public class OrderMaster {
     private BigDecimal orderAmount;
 
     //订单状态,默认0新下单
-    private Integer orderStatus = OrderStatusEnums.NEW.getCode();
+    private Integer orderStatus;
 
     //支付状态，默认0未支付
-    private Integer payStatus = PayStatusEnums.WAIT.getCode();
+    private Integer payStatus;
 
     //创建时间
     private Date createTime;
@@ -50,4 +45,6 @@ public class OrderMaster {
     //修改时间
     private Date updateTime;
 
+    //订单详情
+    private List<OrderDetail> orderDetailList;
 }
