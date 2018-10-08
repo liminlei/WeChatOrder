@@ -3,6 +3,7 @@ package com.imooc.sell.service.impl;
 import com.imooc.sell.dataobject.OrderDetail;
 import com.imooc.sell.dto.OrderDTO;
 import com.imooc.sell.enums.OrderStatusEnums;
+import com.imooc.sell.enums.PayStatusEnums;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -73,5 +74,27 @@ public class OrderServiceImplTest {
         OrderDTO orderDTO = orderService.findOne("1538717941765313997");
         OrderDTO result = orderService.cancel(orderDTO);
         Assert.assertEquals(OrderStatusEnums.CANCEL.getCode(),result.getOrderStatus());
+    }
+
+    @Test
+    public void finish(){
+        OrderDTO orderDTO = orderService.findOne("1538717941765313997");
+        OrderDTO result = orderService.finish(orderDTO);
+        Assert.assertEquals(OrderStatusEnums.FINISHED.getCode(),result.getOrderStatus());
+    }
+
+    @Test
+    public void paid(){
+        OrderDTO orderDTO = orderService.findOne("1538717941765313997");
+        OrderDTO result = orderService.paid(orderDTO);
+        Assert.assertEquals(PayStatusEnums.SUCCESS.getCode(),result.getPayStatus());
+    }
+
+    @Test
+    public void list(){
+        PageRequest request = new PageRequest(0,2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(request);
+//        Assert.assertNotEquals(0,orderDTOPage.getTotalElements());
+        Assert.assertTrue("查询所有订单列表",orderDTOPage.getTotalElements() > 0);
     }
 }
